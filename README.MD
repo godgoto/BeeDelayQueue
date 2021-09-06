@@ -1,4 +1,4 @@
-# DelayQueue 消息延迟队列设计
+# BeeDelayQueue 消息延迟队列
 
 ### 一、应用场景：
 
