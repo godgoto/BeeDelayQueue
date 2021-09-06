@@ -64,17 +64,16 @@ func (p *DelayQueueController) CreateDelayQueue(topic string, retryTime int64, r
 	p.topicList[topic] = tt
 }
 
-func (p *DelayQueueController) Push(topic string, body string, execTime int64) (string, error) {
+func (p *DelayQueueController) Push(topic string, body string, delaySecondTime int64) (string, error) {
 	key := GetTopicKey(topic)
 	var msg DelayMsg
 	msg.Id = p.getTrackID()
 	msg.Body = body
 	msg.Topic = topic
 	msg.RetryCount = 1
-	msg.ExecTime = execTime
-	msg.CreateTime = time.Now().Unix()
+	msg.ExecTime = p.GetTimeUnix() + delaySecondTime
+	msg.CreateTime = p.GetTimeUnix()
 	r := p.ctrlRedis.ZAdd(key, redis.Z{float64(msg.ExecTime), p.toJson(msg)})
-
 	return msg.Id, r.Err()
 }
 func (p *DelayQueueController) Ack(msg DelayMsg, tf bool) {
@@ -350,11 +349,12 @@ func (p *DelayQueueController) GetTime() (*time.Time, error) {
 	rrTime := rTime.Val()
 	return &rrTime, nil
 }
-func (p *DelayQueueController) GetTimeUnix() (int64, error) {
+func (p *DelayQueueController) GetTimeUnix() int64 {
 	rTime := p.ctrlRedis.Time()
 	if rTime.Err() != nil {
-		return 0, rTime.Err()
+		//return 0, rTime.Err()
+		return time.Now().Unix()
 	}
 	timeStamp := rTime.Val().Unix()
-	return timeStamp, nil
+	return timeStamp
 }

@@ -49,8 +49,7 @@ func TestClinet1(t *testing.T) {
 					break
 				}
 				body := "{\"partnerId\":\"2399\",\"shopId\":\"hk001\",\"data\":{\"tp_order_id\":\"21750055968970500800003\"}}"
-				execTime := time.Now().Unix() + 10 //10
-				id, err := delayClient.Push(topic, body, execTime)
+				id, err := delayClient.Push(topic, body, 10)
 				if err != nil {
 					fmt.Println("error:", err.Error())
 					return

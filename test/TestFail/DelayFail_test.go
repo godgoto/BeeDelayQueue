@@ -36,9 +36,7 @@ func TestAddMsg(t *testing.T) {
 	delayClient.AddMassageListener(topic, &massageListener)
 	//3.添加消息
 	body := "{\"partnerId\":\"2399\",\"shopId\":\"hk001\",\"data\":{\"tp_order_id\":\"21750055968970500800003\"}}"
-	timeStamp,_:= delayClient.GetTimeUnix()
-	execTime := timeStamp + 5 //10
-	id, err := delayClient.Push(topic, body, execTime)
+	id, err := delayClient.Push(topic, body, 5)
 	if err != nil {
 		fmt.Println("error:", err.Error())
 		return
