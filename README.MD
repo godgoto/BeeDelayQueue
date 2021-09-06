@@ -51,7 +51,7 @@
         4.3. 使用zrangebysocre key min max  limit 0 1消费消息最早的一条消息,如果超时了,修改,ExecTime,返回正常的消息队列!
 
 ### 5.多实例
-
+    reids 使用 : github.com/go-redis/redis
     利用 Redis 的 SETNX 设置过期时间,做分布式锁,防止死锁!
 
 ### 6.消息ID生成
@@ -65,7 +65,9 @@
 
 ### 8. 使用
 
-#### 8.1 监听者
+#### 8.1 引入
+    import "github.com/godgoto/BeeDelayQueue"
+#### 8.2 监听者
 
 ```cgo
     type MassageListener struct {
@@ -115,3 +117,4 @@
 ```
 
 #### 9.1 感谢！
+    redis : github.com/go-redis/redis   
